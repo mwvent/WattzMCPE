@@ -97,12 +97,12 @@ class Main extends PluginBase {
 	}
 	
 	public function getWarpRealName($warpname) {
-		$retval = false;
 		foreach($this->warpaliases as $currentwarpalias => $currenttarget) {
 			if(strtolower($currentwarpalias) == $warpname) {
 				return trim($currenttarget);
 			}
 		}
+		return false;
 	}
     
     public function redirector(Player $player) {
