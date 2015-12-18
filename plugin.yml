@@ -1,0 +1,25 @@
+name: Wattz
+main: Wattz\Main
+version: 1.0.1
+api: 1.12.0
+author: mwvent
+website: http://wattz.org.uk/mcpe
+commands:
+ ping: []
+ hb:
+  description: "Wattz server maint utility one"
+  usage: "/hb <on|off|target>"
+  permission: wattz.command.hb
+  
+permissions:
+ wattz:
+  default: op
+  description: "Wattz server maintainer"
+  children:
+   wattz.command:
+    description: "Wattz server maintainer"
+    default: op
+    children:
+     wattz.command.hb:
+      description: "Maintinence function one"
+      default: op

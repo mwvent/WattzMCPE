@@ -1,0 +1,49 @@
+---
+# do not use localhost for server it doesnt work - use 127.0.0.1 instead
+mysql-server: 127.0.0.1
+mysql-user: username
+mysql-pass: password
+database: pocketmine
+# tables
+wattz-players: wattz_players
+wattz-warps: wattz_warps
+skins: skins
+playerskins: playerskins
+# options
+saveskins: off
+herobrine: off
+herobrine_undead: off
+# autokick all players with message for emergencey situations
+autokickall: false
+autokickall_msg: "Blah"
+# fast transfer warps
+warps:
+  this_server_name: lobby
+  this_server_is_redirector: on
+  default_redirection: lobby
+  # display a notice that player needs to disconnect & reconnect
+  # to work around ft bug in client - this cant be set on the main redirector of course
+  prevent-actual-transfer: true
+  lobby:
+    names:
+    - lobby
+    - limbo
+    - spawn
+    hostname: pm0.wattz.org.uk
+    port: 19133
+  creative:
+    names:
+    - creative
+    - plotworld
+    - plots
+    hostname: pm1.wattz.org.uk
+    port: 19134
+  survival:
+    names:
+    - survival
+    - world
+    - asda
+    hostname: pm1.wattz.org.uk
+    port: 19135
+
+...
