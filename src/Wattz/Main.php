@@ -43,15 +43,21 @@ class Main extends PluginBase {
         $this->cfg = $this->getConfig()->getAll();
         $this->getCommand("ping")->setExecutor(new Commands\Commands($this));
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
-		$this->getCommand("hb")->setExecutor(new Commands\Commands($this));
-		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-		Entity::registerEntity(Herobrine::class);
-		Entity::registerEntity(HerobrineBat::class);
-		Entity::registerEntity(UndeadPlayer::class);
-		$this->herobrineTask = new HerobrineTask($this);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
+        $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        Entity::registerEntity(Herobrine::class);
+        Entity::registerEntity(HerobrineBat::class);
+        Entity::registerEntity(UndeadPlayer::class);
+        $this->herobrineTask = new HerobrineTask($this);
+        if( isset($this->cfg["herobrine"]) ) {
+            if($this->cfg["herobrine"] == true) {
+                Server::getInstance()->getLogger()->info(Main::PREFIX  . "Activating Herobrine On Startup");
+                $this->herobrineTask->herobrine_active = true;
+            }
+        }
+        $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
         
         $this->db = new \Wattz\Database($this, $this->cfg);
         

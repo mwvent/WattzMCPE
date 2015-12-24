@@ -70,7 +70,7 @@ class UndeadPlayer extends Human implements CommandSender {
 		$this->plugin = $plugin;
 		$this->thisname = "Undead " . $targetPlayer->getName();
 		$name = $this->thisname;
-		$IsSlim = $targetPlayer->isSkinSlim();
+		//$IsSlim = $targetPlayer->isSkinSlim();
 		$playerX = $entityToCopyCoords->getX();
 		$playerY = $entityToCopyCoords->getY();
 		$playerZ = $entityToCopyCoords->getZ();
@@ -111,8 +111,8 @@ class UndeadPlayer extends Human implements CommandSender {
 		$skindata = $this->negaskin($skindata);
 		
 		$nbt->Skin = new Compound("Skin", [
-		    "Data" => new String("Data", $skindata),
-		    "Slim" => new Byte("Slim", 0)
+		    "Data" => new String("Data", $skindata)
+		    // "Slim" => new Byte("Slim", 0)
 		]);
 		
 		parent::__construct($targetPlayer->getLevel()->getChunk($playerX>>4, $playerZ>>4), $nbt);

@@ -67,18 +67,6 @@ class HerobrineTask extends PluginTask {
     }
     
     public function herobrineUpdate() {
-        // clean up herobrines_bats because sometimes their update function stops getting called?
-        foreach( $this->herobrines_bats as $batkey => $bat ) {
-	    $bat->lifeTime--;
-	    if( $bat->lifeTime < 0 ) {
-		$bat->close();
-		unset( $this->herobrines_bats[$batkey] );
-	    }
-        }
-        // done allow herobrine to do any further spawning while his despawn entities are flying around
-        if( count( $this->herobrines_bats ) > 0 ) {
-	    return;
-        }
 	// ensure herobrine is not active if not requested
 	if( ! $this->herobrine_active ) {
 	    if( ! is_null($this->herobrine_entity)) {
@@ -88,6 +76,10 @@ class HerobrineTask extends PluginTask {
 	    return;
 	}
 	if(is_null($this->herobrine_entity)) {
+            // herobrine spawn chance 1 in 120 ticks
+            if( \rand(1, 120) != 1 && is_null($this->herobrines_main_target) ) {
+                return;
+            }
 	    $player = $this->find_herobrine_target();
 	    if( ! is_null($player) ) {
 		Server::getInstance()->getLogger()->info(Main::PREFIX  . "Herobrine targetting " . $player->getName());

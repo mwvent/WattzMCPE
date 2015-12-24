@@ -63,7 +63,7 @@ class Herobrine extends Human implements CommandSender{
 		// if targetPlayer was set we can create chunk and nbt values outselves
 		$this->plugin = $plugin;
 		$name = "Herobrine";
-		$IsSlim = $targetPlayer->isSkinSlim();
+		// $IsSlim = $targetPlayer->isSkinSlim();
 		$playerX = $targetPlayer->getX();
 		$playerY = $targetPlayer->getY();
 		$playerZ = $targetPlayer->getZ();
@@ -78,14 +78,22 @@ class Herobrine extends Human implements CommandSender{
 		$pHealth = 99;
 		
 		// get a nice place to spawn
-		$provisional_spawnloc = new Vector3(
-		    $playerX + rand(5, 7), 
-		    $playerY, 
-		    $playerZ + rand(5, 7)
-		);
+                if( rand(1,2) == 1 ) {
+                    $provisional_spawnloc = new Vector3(
+                        $playerX + rand(15, 20), 
+                        $playerY, 
+                        $playerZ + rand(15, 20)
+                    );
+                } else {
+                    $provisional_spawnloc = new Vector3(
+                        $playerX - rand(15, 20), 
+                        $playerY, 
+                        $playerZ - rand(15, 20)
+                    );
+                }
 		$spawnloc = $targetPlayer->getLevel()->getSafeSpawn($provisional_spawnloc);
 		$outX = $spawnloc->x;
-		$outY = $spawnloc->y + 0.5;
+		$outY = $spawnloc->y; // 0,5
 		$outZ = $spawnloc->z;
 		// echo "Spawnpos $outX, $outY, $outZ" . PHP_EOL; // DEBUG
 		
@@ -219,9 +227,9 @@ class Herobrine extends Human implements CommandSender{
 	    // despawn if any player <5 block distance OR change target if another player is closer
 	    foreach($this->getLevel()->getPlayers() as $player) {
 		$playerdist = $this->distance($player);
-		if($playerdist < 5) {
+		if($playerdist < 15) {
 		    Server::getInstance()->getLogger()->info(Main::PREFIX  . "Herobrine " . $player->getName() . " got close - despawning");
-		    $newundeadplayer = new UndeadPlayer(new dummyChunk, new Compound, $player, $this, $this->plugin);
+		    // $newundeadplayer = new UndeadPlayer(new dummyChunk, new Compound, $player, $this, $this->plugin);
 		    $this->poofAway();
 		    return true;
 		}
@@ -290,7 +298,7 @@ class Herobrine extends Human implements CommandSender{
 		$attacker_effect = Effect::getEffect(Effect::CONFUSION);
 		$attacker_effect->setDuration(15 * 20);
 		$attacker->addEffect($attacker_effect);
-		$newundeadplayer = new UndeadPlayer(new dummyChunk, new Compound, $attacker, $this, $this->plugin);
+		//  $newundeadplayer = new UndeadPlayer(new dummyChunk, new Compound, $attacker, $this, $this->plugin);
 		$this->poofAway();
 	    } else {
 		Server::getInstance()->getLogger()->info(Main::PREFIX  . "Herobrine attacked by " . get_class($attacker));
