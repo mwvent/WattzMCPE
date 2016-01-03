@@ -11,11 +11,35 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityTeleportEvent;
+use pocketmine\event\player\PlayerKickEvent;
+use TimeRanks\TimeRanks;
 
 class EventListener extends PluginBase implements Listener{
-	
+        /**
+         *
+         * @var Wattz\Main
+         */
+        private $plugin;
 	public function __construct(Main $plugin){
 		$this->plugin = $plugin;
+	}
+        
+        // allow players who have played a little to still join when full
+        public function onPlayerKick(PlayerKickEvent $event){
+            if($event->getReason() === "disconnectionScreen.serverFull") {
+                $timeRanksPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("TimeRanks");
+                if(is_null($timeRanksPlugin)) {
+                    return;
+                }
+                $playerName = strtolower($event->getPlayer()->getName());
+                $playTime = $timeRanksPlugin->getMinutes($playerName);
+                if($playTime > 60) {
+                    $msg = "Allowed $playerName to join when full ";
+                    $msg .= "because they have $playTime mins of playtime.";
+                    $this->plugin->getServer()->getLogger()->info($msg);
+                    $event->setCancelled(true);
+                }
+            }
 	}
 	
 	public function onPlayerChat(PlayerChatEvent $event){
@@ -25,6 +49,13 @@ class EventListener extends PluginBase implements Listener{
 	public function onPlayerJoin(PlayerJoinEvent $event) {
 		$this->plugin->skinSaver($event->getPlayer());
 		$this->plugin->redirector($event->getPlayer());
+                $timeRanksPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("TimeRanks");
+                if(is_null($timeRanksPlugin)) {
+                    return;
+                }
+                $playerName = strtolower($event->getPlayer()->getName());
+                $playTime = $timeRanksPlugin->getMinutes($playerName);
+                echo "DEBUG: $playerName joined with $playTime playtime\n";
 	}
 	
 	public function onPlayerQuit(PlayerQuitEvent $event){
