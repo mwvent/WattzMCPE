@@ -77,7 +77,6 @@ class Database {
 		$db_setup_queries ["create playerskins table"] = "
 			CREATE TABLE IF NOT EXISTS `" . $this->tables["playerskins"] . "` (
 			`username` VARCHAR(50),
-			`currentskin` BLOB,
 			`currentskin_md5` VARCHAR(32),
 			PRIMARY KEY (`username`)
 			);
@@ -133,11 +132,11 @@ class Database {
 		$this->checkPreparedStatement ( $thisQueryName, $sql );
         
         $thisQueryName = "update_skins";
-		$sql = "REPLACE INTO " .  $this->tables["skins"] . " (md5, data) VALUES(?, ?)";
+		$sql = "INSERT IGNORE INTO " .  $this->tables["skins"] . " (md5, data) VALUES(?, ?)";
 		$this->checkPreparedStatement ( $thisQueryName, $sql );
         
         $thisQueryName = "update_player_skin";
-		$sql = "REPLACE INTO " .  $this->tables["playerskins"] . " (username, currentskin_md5, currentskin) VALUES(?, ?, ?)";
+		$sql = "REPLACE INTO " .  $this->tables["playerskins"] . " (username, currentskin_md5) VALUES(?, ?)";
 		$this->checkPreparedStatement ( $thisQueryName, $sql );
 	}
     
@@ -149,8 +148,7 @@ class Database {
 		$this->db_statements['update_skins']->bind_param("sb", $skindata_md5, $null);
 		$this->db_statements['update_skins']->send_long_data(1, $skindata);
 		$this->db_statements['update_skins']->execute();
-		$this->db_statements['update_player_skin']->bind_param("ssb", $playername, $skindata_md5, $null);
-		$this->db_statements['update_player_skin']->send_long_data(2, $skindata);
+		$this->db_statements['update_player_skin']->bind_param("ss", $playername, $skindata_md5);
 		$this->db_statements['update_player_skin']->execute();
     }
     

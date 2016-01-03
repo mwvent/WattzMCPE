@@ -49,13 +49,6 @@ class EventListener extends PluginBase implements Listener{
 	public function onPlayerJoin(PlayerJoinEvent $event) {
 		$this->plugin->skinSaver($event->getPlayer());
 		$this->plugin->redirector($event->getPlayer());
-                $timeRanksPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("TimeRanks");
-                if(is_null($timeRanksPlugin)) {
-                    return;
-                }
-                $playerName = strtolower($event->getPlayer()->getName());
-                $playTime = $timeRanksPlugin->getMinutes($playerName);
-                echo "DEBUG: $playerName joined with $playTime playtime\n";
 	}
 	
 	public function onPlayerQuit(PlayerQuitEvent $event){
