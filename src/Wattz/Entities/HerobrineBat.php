@@ -3,22 +3,16 @@ namespace Wattz\Entities;
 use Wattz\Main;
 use pocketmine\Server;
 
-use pocketmine\command\CommandSender;
-use pocketmine\entity\Human;
 use pocketmine\entity\Effect;
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\String;
-use pocketmine\permission\PermissibleBase;
-use pocketmine\permission\PermissionAttachment;
-use pocketmine\plugin\Plugin;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
+
 use pocketmine\level\sound\BatSound;
 
 use pocketmine\entity\Entity;
@@ -55,19 +49,19 @@ class HerobrineBat extends Creature {
 	    $chunk=$sourceEntity->getLevel()->getChunk($sourceEntity->getX()>>4, $sourceEntity->getZ()>>4);
 	    $nbt = new Compound;
 	    $nbt->Pos = new Enum("Pos", [
-	      new Double("", $sourceEntity->getX()),
-	      new Double("", $sourceEntity->getY()),
-	      new Double("",  $sourceEntity->getZ())
+	      new DoubleTag("", $sourceEntity->getX()),
+	      new DoubleTag("", $sourceEntity->getY()),
+	      new DoubleTag("",  $sourceEntity->getZ())
 	    ]);
 	    $nbt->Rotation = new Enum("Rotation", [
-		new Float("", $sourceEntity->getYaw()),
-		new Float("", $sourceEntity->getPitch())
+		new FloatTag("", $sourceEntity->getYaw()),
+		new FloatTag("", $sourceEntity->getPitch())
 		    ]);
-	    $nbt->Health = new Short("Health", 2);
-	    $nbt->NameTag = new String("name","HerobrineBat");
-	    $nbt->Invulnerable = new Byte("Invulnerable", 1);
-	    $nbt->BatFlags = new Byte("BatFlags", $this->batflags);
-	    $nbt->BatFlags = new Byte("ED1", $this->batflags);
+	    $nbt->Health = new ShortTag("Health", 2);
+	    $nbt->NameTag = new StringTag("name","HerobrineBat");
+	    $nbt->Invulnerable = new ByteTag("Invulnerable", 1);
+	    $nbt->BatFlags = new ByteTag("BatFlags", $this->batflags);
+	    $nbt->BatFlags = new ByteTag("ED1", $this->batflags);
 	    
 	    parent::__construct($chunk, $nbt);
 	    $this->setNameTagVisible(false);

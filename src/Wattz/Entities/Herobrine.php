@@ -7,15 +7,13 @@ use pocketmine\command\CommandSender;
 use pocketmine\entity\Human;
 use pocketmine\entity\Effect;
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\plugin\Plugin;
@@ -25,11 +23,8 @@ use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Snowball;
 use pocketmine\entity\Arrow;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\network\protocol\EntityEventPacket;
 
 
 use pocketmine\level\format\mcregion\Chunk;
@@ -100,28 +95,28 @@ class Herobrine extends Human implements CommandSender{
 		$nbt = new Compound;
 		$motion = new Vector3(0,0,0);
 		$nbt->Pos = new Enum("Pos", [
-		  new Double("", $outX),
-		  new Double("", $outY),
-		  new Double("", $outZ)
+		  new DoubleTag("", $outX),
+		  new DoubleTag("", $outY),
+		  new DoubleTag("", $outZ)
 		]);
 		$nbt->Motion = new Enum("Motion", [
-		  new Double("", $motion->x),
-		  new Double("", $motion->y),
-		  new Double("", $motion->z)
+		  new DoubleTag("", $motion->x),
+		  new DoubleTag("", $motion->y),
+		  new DoubleTag("", $motion->z)
 		]);
 		$nbt->Rotation = new Enum("Rotation", [
-		    new Float("", $playerYaw),
-		    new Float("", $playerPitch)
+		    new FloatTag("", $playerYaw),
+		    new FloatTag("", $playerPitch)
 		]);
-		$nbt->Health = new Short("Health", $pHealth);
+		$nbt->Health = new ShortTag("Health", $pHealth);
 		$nbt->Inventory = new Enum("Inventory", $humanInv);
-		$nbt->NameTag = new String("name"," ");
-		$nbt->Invulnerable = new Byte("Invulnerable", 1);
-		$nbt->CustomTestTag = new Byte("CustomTestTag", 1);
+		$nbt->NameTag = new StringTag("name"," ");
+		$nbt->Invulnerable = new ByteTag("Invulnerable", 1);
+		$nbt->CustomTestTag = new ByteTag("CustomTestTag", 1);
 		
 		$nbt->Skin = new Compound("Skin", [
-		    "Data" => new String("Data", file_get_contents($this->plugin->getDataFolder()."/herobrine.skin")),
-		    "Slim" => new Byte("Slim", 0)
+		    "Data" => new StringTag("Data", file_get_contents($this->plugin->getDataFolder()."/herobrine.skin")),
+		    "Slim" => new ByteTag("Slim", 0)
 		]);
 		
 		parent::__construct($targetPlayer->getLevel()->getChunk($playerX>>4, $playerZ>>4), $nbt);

@@ -145,7 +145,7 @@ class Database {
 		$skindata = $player->getSkinData();
 		$skindata_md5 = md5($skindata);
 		$null = NULL;
-		$this->db_statements['update_skins']->bind_param("sb", $skindata_md5, $null);
+                $this->db_statements['update_skins']->bind_param("sb", $skindata_md5, $null);
 		$this->db_statements['update_skins']->send_long_data(1, $skindata);
 		$this->db_statements['update_skins']->execute();
 		$this->db_statements['update_player_skin']->bind_param("ss", $playername, $skindata_md5);
