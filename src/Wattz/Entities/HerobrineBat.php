@@ -8,7 +8,7 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\EnumTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
@@ -48,12 +48,12 @@ class HerobrineBat extends Creature {
 	    $this->batflags = 0;
 	    $chunk=$sourceEntity->getLevel()->getChunk($sourceEntity->getX()>>4, $sourceEntity->getZ()>>4);
 	    $nbt = new CompoundTag;
-	    $nbt->Pos = new Enum("Pos", [
+	    $nbt->Pos = new EnumTag("Pos", [
 	      new DoubleTag("", $sourceEntity->getX()),
 	      new DoubleTag("", $sourceEntity->getY()),
 	      new DoubleTag("",  $sourceEntity->getZ())
 	    ]);
-	    $nbt->Rotation = new Enum("Rotation", [
+	    $nbt->Rotation = new EnumTag("Rotation", [
 		new FloatTag("", $sourceEntity->getYaw()),
 		new FloatTag("", $sourceEntity->getPitch())
 		    ]);
