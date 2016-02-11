@@ -9,7 +9,7 @@ use pocketmine\entity\Effect;
 use pocketmine\level\format\FullChunk;
 
 use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\FloatTag;
@@ -50,7 +50,7 @@ class UndeadPlayer extends Human implements CommandSender {
 	public $stepHeight = 0.5;
 	public $knockback = 0;
 	
-	public function __construct(FullChunk $chunk, Compound $nbt, $targetPlayer = null, $entityToCopyCoords = null, $plugin = null) {
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, $targetPlayer = null, $entityToCopyCoords = null, $plugin = null) {
 		// if $targetPlayer is null pocketmine is probably trying to reload a saved
 		// version of this entity which we do not want anymore - as it is not cancellable ( I think ? )
 		// just let it create and the update function will despawn the entity immediatley when it finds
@@ -79,7 +79,7 @@ class UndeadPlayer extends Human implements CommandSender {
 		$pHealth = 1;
 		$pHeldItem=$targetPlayer->getInventory()->getItemInHand();
 		
-		$nbt = new Compound;
+		$nbt = new CompoundTag;
 		$motion = new Vector3(0,0,0);
 		$nbt->Pos = new Enum("Pos", [
 		  new DoubleTag("", $outX),
@@ -105,7 +105,7 @@ class UndeadPlayer extends Human implements CommandSender {
 		$skindata = $targetPlayer->getSkinData();
 		$skindata = $this->negaskin($skindata);
 		
-		$nbt->Skin = new Compound("Skin", [
+		$nbt->Skin = new CompoundTag("Skin", [
 		    "Data" => new StringTag("Data", $skindata)
 		    // "Slim" => new ByteTag("Slim", 0)
 		]);

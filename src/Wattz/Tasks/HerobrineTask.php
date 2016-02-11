@@ -9,7 +9,7 @@ use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;
 // for herobrine
 use pocketmine\level\format\mcregion\Chunk;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\entity\Entity;
 
 class dummyChunk extends Chunk
@@ -83,7 +83,7 @@ class HerobrineTask extends PluginTask {
 	    $player = $this->find_herobrine_target();
 	    if( ! is_null($player) ) {
 		Server::getInstance()->getLogger()->info(Main::PREFIX  . "Herobrine targetting " . $player->getName());
-		$this->herobrine_entity = new Herobrine(new dummyChunk, new Compound, $player, $this->plugin);
+		$this->herobrine_entity = new Herobrine(new dummyChunk, new CompoundTag, $player, $this->plugin);
 	    }
 	    return;
 	} else {

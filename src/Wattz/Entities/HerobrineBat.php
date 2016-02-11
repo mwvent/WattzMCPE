@@ -6,7 +6,7 @@ use pocketmine\Server;
 use pocketmine\entity\Effect;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\FloatTag;
@@ -29,7 +29,7 @@ class HerobrineBat extends Creature {
 	private $currentDirection;
 	public $lifeTime = 40;
 	public $NETWORK_ID;
-	public function __construct(FullChunk $chunk, Compound $nbt, $sourceEntity = null) {
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, $sourceEntity = null) {
 	    if( is_null($sourceEntity) ) { // not spawned by plugin - may have been left over from a crash - just close
 		parent::__construct($chunk, $nbt); // need to allow construction to finish or crash
 		$this->close();
@@ -47,7 +47,7 @@ class HerobrineBat extends Creature {
 	    $this->NETWORK_ID = $possibleTypes[array_rand($possibleTypes)];
 	    $this->batflags = 0;
 	    $chunk=$sourceEntity->getLevel()->getChunk($sourceEntity->getX()>>4, $sourceEntity->getZ()>>4);
-	    $nbt = new Compound;
+	    $nbt = new CompoundTag;
 	    $nbt->Pos = new Enum("Pos", [
 	      new DoubleTag("", $sourceEntity->getX()),
 	      new DoubleTag("", $sourceEntity->getY()),

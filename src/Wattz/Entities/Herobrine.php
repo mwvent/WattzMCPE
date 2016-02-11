@@ -8,7 +8,7 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Effect;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\FloatTag;
@@ -45,7 +45,7 @@ class Herobrine extends Human implements CommandSender{
 	public $knockback;
 	public $timespawned;
 	
-	public function __construct(FullChunk $chunk, Compound $nbt, $targetPlayer = null, $plugin = null) {
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, $targetPlayer = null, $plugin = null) {
 		// if $targetPlayer is null pocketmine is probably trying to refload a saved
 		// version of this entity which we do not want anymore - as it is not cancellable ( I think ? )
 		// just let it create and the update function will despawn the entity immediatley when it finds
@@ -92,7 +92,7 @@ class Herobrine extends Human implements CommandSender{
 		$outZ = $spawnloc->z;
 		// echo "Spawnpos $outX, $outY, $outZ" . PHP_EOL; // DEBUG
 		
-		$nbt = new Compound;
+		$nbt = new CompoundTag;
 		$motion = new Vector3(0,0,0);
 		$nbt->Pos = new Enum("Pos", [
 		  new DoubleTag("", $outX),
@@ -114,7 +114,7 @@ class Herobrine extends Human implements CommandSender{
 		$nbt->Invulnerable = new ByteTag("Invulnerable", 1);
 		$nbt->CustomTestTag = new ByteTag("CustomTestTag", 1);
 		
-		$nbt->Skin = new Compound("Skin", [
+		$nbt->Skin = new CompoundTag("Skin", [
 		    "Data" => new StringTag("Data", file_get_contents($this->plugin->getDataFolder()."/herobrine.skin")),
 		    "Slim" => new ByteTag("Slim", 0)
 		]);
