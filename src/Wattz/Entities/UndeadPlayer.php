@@ -221,7 +221,7 @@ class UndeadPlayer extends Human implements CommandSender {
 	    $pk = new EntityEventPacket();
 	    $pk->eid = $this->getId();
 	    $pk->event = $this->getHealth() <= 0 ? EntityEventPacket::DEATH_ANIMATION : EntityEventPacket::HURT_ANIMATION;
-	    Server::broadcastPacket($this->hasSpawned, $pk->setChannel(Network::CHANNEL_WORLD_EVENTS));
+	    Server::broadcastPacket($this->hasSpawned, $pk);
 	    $this->close();
 	    $this->targetPlayer = null;
 	}
@@ -340,7 +340,7 @@ class UndeadPlayer extends Human implements CommandSender {
 	    $pk = new EntityEventPacket();
 	    $pk->eid = $this->getId();
 	    $pk->event = $this->getHealth() <= 0 ? EntityEventPacket::DEATH_ANIMATION : EntityEventPacket::HURT_ANIMATION; //Ouch!
-	    Server::broadcastPacket($this->hasSpawned, $pk->setChannel(Network::CHANNEL_WORLD_EVENTS));
+	    Server::broadcastPacket($this->hasSpawned, $pk);
 
 	    // $this->setLastDamageCause($source);
 	    $this->setHealth($this->getHealth() - $source->getFinalDamage());
