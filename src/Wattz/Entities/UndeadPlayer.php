@@ -11,7 +11,7 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\EnumTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
@@ -81,22 +81,22 @@ class UndeadPlayer extends Human implements CommandSender {
 		
 		$nbt = new CompoundTag;
 		$motion = new Vector3(0,0,0);
-		$nbt->Pos = new EnumTag("Pos", [
+		$nbt->Pos = new ListTag("Pos", [
 		  new DoubleTag("", $outX),
 		  new DoubleTag("", $outY),
 		  new DoubleTag("", $outZ)
 		]);
-		$nbt->Motion = new EnumTag("Motion", [
+		$nbt->Motion = new ListTag("Motion", [
 		  new DoubleTag("", $motion->x),
 		  new DoubleTag("", $motion->y),
 		  new DoubleTag("", $motion->z)
 		]);
-		$nbt->Rotation = new EnumTag("Rotation", [
+		$nbt->Rotation = new ListTag("Rotation", [
 		    new FloatTag("", $playerYaw),
 		    new FloatTag("", $playerPitch)
 		]);
 		$nbt->Health = new ShortTag("Health", $pHealth);
-		$nbt->Inventory = new EnumTag("Inventory", $humanInv);
+		$nbt->Inventory = new ListTag("Inventory", $humanInv);
 		$nbt->NameTag = new StringTag("name", $this->thisname);
 		//$nbt->Invulnerable = new ByteTag("Invulnerable", 0);
 		$nbt->CustomTestTag = new ByteTag("CustomTestTag", 1);
