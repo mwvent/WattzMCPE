@@ -140,6 +140,25 @@ class Main extends PluginBase {
 		$redirectTask = new \Wattz\Tasks\RedirectPlayerTask($this, $player, $warpname);
 	}
 
+    /**
+     * 
+     * @param string $playerName
+     * @return string
+     */
+    public function readFromRanksFile($playerName) {
+        $playerName = strtolower($playerName);
+        $ranks=file("/home/minecraft/ranks",FILE_IGNORE_NEW_LINES);
+        $retArr = [];
+        foreach($ranks as $rank) {
+            $split = explode(":" , $rank);
+            if( !isset($split[0]) || !isset($split[1]) ) {
+                    continue;
+            }
+            $retArr[strtolower(trim($split[0]))] = trim($split[1]);
+        }
+        return ( isset($retArr[$playerName]) ) ? $retArr[$playerName] : "";
+    }
+        
     public function redirect_run(Player $player, $warpname) {
 		$warpname = strtolower($warpname);
 		// chucked in to enable me to deal with an emergencey

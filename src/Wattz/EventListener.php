@@ -47,8 +47,37 @@ class EventListener extends PluginBase implements Listener{
 	}
 	
 	public function onPlayerJoin(PlayerJoinEvent $event) {
-		$this->plugin->skinSaver($event->getPlayer());
-		$this->plugin->redirector($event->getPlayer());
+            $this->plugin->skinSaver($event->getPlayer());
+            $this->plugin->redirector($event->getPlayer());
+            
+            // See if player has a rank in ranks file
+            $pRank = $this->plugin->readFromRanksFile($event->getPlayer()->getName());
+            
+            // If nothing in ranks file tell timeranks to update the rank
+            if($pRank == "") {
+                // tell pureperms to use basic group
+                $ppPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("PurePerms");
+                $pureGroup = $ppPlugin->getDefaultGroup();
+                $ppPlugin->getUserDataMgr()->setGroup($event->getPlayer(), $pureGroup, null);
+                // do timeranks rankup (sets buddyChannels)
+                $timeRanksPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("TimeRanks");
+                $playerName = strtolower($event->getPlayer()->getName());
+                $playTime = $timeRanksPlugin->getMinutes($playerName);
+                $timeRank = $timeRanksPlugin->getRankFromMinutes($playTime);
+                $timeRanksPlugin->checkRankUp($playerName, 0, $playTime);
+                $pRank = $timeRank->getRankName();
+                // and set BuddyChannels direct
+                $buddyChannelsPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("BuddyChannels");
+                $buddyChannelsPlugin->setBaseRank($event->getPlayer()->getName(), $pRank);
+            } else {
+                // otherwise tell pureperms to use rank found in ranks file
+                $ppPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("PurePerms");
+                $pureGroup = $ppPlugin->getGroup($pRank);
+                $ppPlugin->getUserDataMgr()->setGroup($event->getPlayer(), $pureGroup, null);
+                // and set BuddyChannels direct
+                $buddyChannelsPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("BuddyChannels");
+                $buddyChannelsPlugin->setBaseRank($event->getPlayer()->getName(), $pRank);
+            }
 	}
 	
 	public function onPlayerQuit(PlayerQuitEvent $event){

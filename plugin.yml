@@ -1,9 +1,8 @@
 name: Wattz
 main: Wattz\Main
 version: 1.0.1
-api:
-- 1.0.0
-- 2.0.0
+api: 2.0.0
+depend: [BuddyChannels, TimeRanks, PurePerms]
 author: mwvent
 website: http://wattz.org.uk/mcpe
 commands:
