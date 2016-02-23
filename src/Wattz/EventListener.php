@@ -69,11 +69,20 @@ class EventListener extends PluginBase implements Listener{
                 // and set BuddyChannels direct
                 $buddyChannelsPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("BuddyChannels");
                 $buddyChannelsPlugin->setBaseRank($event->getPlayer()->getName(), $pRank);
+                // debug
+                $msg = $event->getPlayer()->getName() . " loaded time-based rank " . $pRank ;
+                $this->plugin->getServer()->getLogger()->debug($msg);
             } else {
+                $msg = $event->getPlayer()->getName() . " loaded manual rank " . $pRank ;
+                $this->plugin->getServer()->getLogger()->debug($msg);
                 // otherwise tell pureperms to use rank found in ranks file
                 $ppPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("PurePerms");
                 $pureGroup = $ppPlugin->getGroup($pRank);
                 $ppPlugin->getUserDataMgr()->setGroup($event->getPlayer(), $pureGroup, null);
+                $levels =  $this->plugin->getServer()->getLevels();
+                foreach($levels as $level){
+                    $ppPlugin->getUserDataMgr()->setGroup($event->getPlayer(), $pureGroup, $level->getName());
+                }
                 // and set BuddyChannels direct
                 $buddyChannelsPlugin = $this->plugin->getServer()->getPluginManager()->getPlugin("BuddyChannels");
                 $buddyChannelsPlugin->setBaseRank($event->getPlayer()->getName(), $pRank);
