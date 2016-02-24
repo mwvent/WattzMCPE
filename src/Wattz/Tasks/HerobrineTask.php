@@ -26,6 +26,7 @@ class HerobrineTask extends PluginTask {
     public $herobrines_main_target;
     public $plugin;
     public $herobrines_bats;
+    public $herobrine_chance = 120;
 
     public function __construct($plugin) {
 	$this->plugin = $plugin;
@@ -77,7 +78,7 @@ class HerobrineTask extends PluginTask {
 	}
 	if(is_null($this->herobrine_entity)) {
             // herobrine spawn chance 1 in 120 ticks
-            if( \rand(1, 120) != 1 && is_null($this->herobrines_main_target) ) {
+            if( \rand(1, $this->herobrine_chance) != 1 && is_null($this->herobrines_main_target) ) {
                 return;
             }
 	    $player = $this->find_herobrine_target();

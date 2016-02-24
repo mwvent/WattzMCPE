@@ -51,8 +51,12 @@ class Main extends PluginBase {
         $this->herobrineTask = new HerobrineTask($this);
         if( isset($this->cfg["herobrine"]) ) {
             if($this->cfg["herobrine"] == true) {
-                Server::getInstance()->getLogger()->info(Main::PREFIX  . "Activating Herobrine On Startup");
                 $this->herobrineTask->herobrine_active = true;
+                if( isset($this->cfg["herobrine_chance"]) ) {
+                    $this->herobrineTask->herobrine_chance = (int)$this->cfg["herobrine_chance"];
+                }
+                $msg = "Activating Herobrine On Startup with chance " . $this->herobrineTask->herobrine_chance;
+                Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );
             }
         }
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);

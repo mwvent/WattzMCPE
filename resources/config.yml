@@ -12,6 +12,8 @@ playerskins: playerskins
 # options
 saveskins: off
 herobrine: off
+# chance in ticks
+herobrine_chance: 999
 herobrine_undead: off
 # autokick all players with message for emergencey situations
 autokickall: false
