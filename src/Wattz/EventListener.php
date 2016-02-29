@@ -47,6 +47,16 @@ class EventListener extends PluginBase implements Listener{
 	}
 	
 	public function onPlayerJoin(PlayerJoinEvent $event) {
+            /*
+             * Kick players with bad words in name
+             */
+            $name = strtolower($event->getPlayer()->getName());
+            $regex = "((f.{0,3}u.{0,3}k)|(s(e|3){1,5}x)|bit*ch|penis|boob|dick|tits)";
+            if(preg_match($regex, $name) > 0) {
+                $event->getPlayer()->kick("Name not allowed.");
+                return;
+            }
+            
             $this->plugin->skinSaver($event->getPlayer());
             $this->plugin->redirector($event->getPlayer());
             
