@@ -41,9 +41,11 @@ class Main extends PluginBase {
         @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
         $this->cfg = $this->getConfig()->getAll();
+	/*
         $this->getCommand("ping")->setExecutor(new Commands\Commands($this));
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
+	*/
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         Entity::registerEntity(Herobrine::class);
         Entity::registerEntity(HerobrineBat::class);
@@ -82,6 +84,7 @@ class Main extends PluginBase {
     }
     
 	public function initWarpCommands() {
+		/*
 		$commandMap = $this->getServer()->getCommandMap();
 		foreach($this->warpaliases as $currentwarpalias => $currenttarget) {
 			$commandToOverride = $commandMap->getCommand($currentwarpalias);
@@ -95,6 +98,7 @@ class Main extends PluginBase {
 			$command = new WarpCommand($this, $currentwarpalias, $currenttarget);
 			$commandMap->register($currentwarpalias, $command, $currentwarpalias);
 		}
+		*/
 	}
 	
     public function skinSaver($player) {
