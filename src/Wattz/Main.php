@@ -41,11 +41,11 @@ class Main extends PluginBase {
         @mkdir($this->getDataFolder());
         $this->saveDefaultConfig();
         $this->cfg = $this->getConfig()->getAll();
-	/*
+	
         $this->getCommand("ping")->setExecutor(new Commands\Commands($this));
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
-	*/
+	
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         Entity::registerEntity(Herobrine::class);
         Entity::registerEntity(HerobrineBat::class);
@@ -76,17 +76,28 @@ class Main extends PluginBase {
 			}
 		}
 		$this->initWarpCommands();
-		print_r($this->warpaliases);
+	
 		Server::getInstance()->getLogger()->info(Main::PREFIX  . "Ready");
     }
 
     public function removeHerobrine() {
     }
-    
-	public function initWarpCommands() {
-		/*
+   
+	public function removeCommand(string $commandName) {
 		$commandMap = $this->getServer()->getCommandMap();
+		$commandToOverride = $commandMap->getCommand($commandName);
+		$commandToOverride->unregister($commandMap);
+	}
+ 
+	public function initWarpCommands() {
+		
+		$commandMap = $this->getServer()->getCommandMap();
+
 		foreach($this->warpaliases as $currentwarpalias => $currenttarget) {
+			// Following code was intended to check if a warp name already existed as a command and override it
+			// unfortunatley strict typing on Genisys means getCommand can no longer return null - so in the case of a command
+			// already existing the case will no longer be handled
+			/*
 			$commandToOverride = $commandMap->getCommand($currentwarpalias);
 			if( ! $commandToOverride === null ) {
 				//This prepares the command for the next step, setting up the Command->nextLabel
@@ -94,11 +105,12 @@ class Main extends PluginBase {
 				//This changes the current label
 				$commandToOverride->unregister($commandMap); 
 			}
+			*/
 			//Now, we can register our command.
 			$command = new WarpCommand($this, $currentwarpalias, $currenttarget);
 			$commandMap->register($currentwarpalias, $command, $currentwarpalias);
 		}
-		*/
+
 	}
 	
     public function skinSaver($player) {

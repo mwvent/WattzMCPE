@@ -13,22 +13,6 @@ use pocketmine\command\PluginCommand;
 
 use Wattz\Main;
 
-class WarpCommand extends PluginCommand {
-	private $plugin;
-	private $warpname;
-	public function __construct(Main $plugin, $aliasname, $warpname) {
-        $this->plugin = $plugin;
-		$this->warpname = $warpname;
-    }
-	
-	public function execute(CommandSender $sender, $alias, array $args) {
-		if(!$sender instanceof Player) {
-			return;
-		}
-		$this->plugin->redirect($sender, $this->warpname);
-	}
-}
-
 class Commands extends PluginBase implements CommandExecutor{
 	public function __construct(Main $plugin) {
         $this->plugin = $plugin;
