@@ -57,6 +57,11 @@ class Main extends PluginBase {
                 if( isset($this->cfg["herobrine_chance"]) ) {
                     $this->herobrineTask->herobrine_chance = (int)$this->cfg["herobrine_chance"];
                 }
+		if( isset($this->cfg["herobrine_undead"]) ) {
+		    if(strtolower($this->cfg["herobrine_undead"])=="on") {
+	                $this->herobrineTask->herobrine_spawnundead = true;
+		    }
+                }
                 $msg = "Activating Herobrine On Startup with chance " . $this->herobrineTask->herobrine_chance;
                 Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );
             }

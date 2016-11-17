@@ -9,7 +9,7 @@ commands:
  ping: []
  hb:
   description: "Wattz server maint utility one"
-  usage: "/hb <on|off|target>"
+  usage: "/hb <on|off|target|uon|uoff>"
   permission: wattz.command.hb
   
 permissions:

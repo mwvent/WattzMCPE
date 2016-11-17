@@ -27,6 +27,7 @@ class HerobrineTask extends PluginTask {
     public $plugin;
     public $herobrines_bats;
     public $herobrine_chance = 120;
+    public $herobrine_spawnundead = false;
 
     public function __construct($plugin) {
 	$this->plugin = $plugin;
