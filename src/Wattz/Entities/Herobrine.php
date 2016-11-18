@@ -126,6 +126,11 @@ class Herobrine extends Human implements CommandSender{
 		$this->setTargetPlayer($targetPlayer);
 		$this->spawnToAll();
 		$this->timespawned = time();
+		$this->plugin->getServer()->removePlayerListData($this->getUniqueId());
+		$playerlist = $this->getServer()->getOnlinePlayers();
+		foreach($this->plugin->getServer()->getOnlinePlayers() as $onlinePlayer){
+            		$this->plugin->getServer()->sendFullPlayerListData($onlinePlayer);
+        	}
     }
 
 	public function spawnToTarget($targetPlayer) {
@@ -188,6 +193,7 @@ class Herobrine extends Human implements CommandSender{
 	    // for($i=1;$i<4;$i++) {
 		// $this->plugin->herobrineTask->herobrines_bats[] = new HerobrineBat(new dummyChunk, new Compound, $this);
 	    // }
+	    $this->despawnFromAll();
 	    $this->close();
 	    $this->targetPlayer = null;
 	}

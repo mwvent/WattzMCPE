@@ -9,6 +9,8 @@ use Wattz\Tasks\SavePlayerPositionsTask;
 use Wattz\Commands\WarpCommand;
 use pocketmine\entity\Entity;
 
+use Wattz\ChatMessageFormatter;
+
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\Permission;
@@ -66,6 +68,12 @@ class Main extends PluginBase {
                 Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );
             }
         }
+
+	$bcPlugin = $this->getServer()->getPluginManager()->getPlugin("BuddyChannels");
+        if( ! is_null($bcPlugin) ) {
+            $chatFormatter = new \Wattz\ChatMessageFormatter($this);
+        }
+
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
