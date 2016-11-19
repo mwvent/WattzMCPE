@@ -31,7 +31,7 @@ class ChatMessageFormatter extends MessageFormatter {
     public function formatUserMessage(Message $message) {	
 	if ( strpos( strtolower( $message->originalMessage ), 'herobrine') !== false ) {
 		if( $message->sender instanceof Player ) {
-			$this->plugin->herobrineTask->herobrine_spawnundead = true;
+			// $this->plugin->herobrineTask->herobrine_spawnundead = true;
 			$this->plugin->herobrineTask->herobrines_main_target = $message->sender;
 			$this->plugin->herobrineTask->herobrine_active = true;
 		}
