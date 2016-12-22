@@ -29,6 +29,14 @@ class Commands extends PluginBase implements CommandExecutor{
 		    $sender->sendMessage("This is a console only command.");
 		} else {
 		    switch($args[0]) {
+			case "uon":
+			    $this->plugin->herobrineTask->herobrine_spawnundead = true;
+			    return true;
+			    break;
+			case "uoff":
+			    $this->plugin->herobrineTask->herobrine_spawnundead = false;
+			    return true;
+			    break;
 			case "on":
 			    $this->plugin->herobrineTask->herobrines_main_target = null;
 			    $this->plugin->herobrineTask->herobrine_active = true;

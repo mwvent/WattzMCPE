@@ -128,6 +128,11 @@ class Herobrine extends Human implements CommandSender{
 		$this->setTargetPlayer($targetPlayer);
 		$this->spawnToAll();
 		$this->timespawned = time();
+		$this->plugin->getServer()->removePlayerListData($this->getUniqueId());
+		$playerlist = $this->getServer()->getOnlinePlayers();
+		foreach($this->plugin->getServer()->getOnlinePlayers() as $onlinePlayer){
+            		$this->plugin->getServer()->sendFullPlayerListData($onlinePlayer);
+        	}
     }
 
 	public function spawnToTarget($targetPlayer) {
@@ -190,6 +195,7 @@ class Herobrine extends Human implements CommandSender{
 	    // for($i=1;$i<4;$i++) {
 		// $this->plugin->herobrineTask->herobrines_bats[] = new HerobrineBat(new dummyChunk, new Compound, $this);
 	    // }
+	    $this->despawnFromAll();
 	    $this->close();
 	    $this->targetPlayer = null;
 	}
@@ -226,7 +232,9 @@ class Herobrine extends Human implements CommandSender{
 		$playerdist = $this->distance($player);
 		if($playerdist < 15) {
 		    Server::getInstance()->getLogger()->info(Main::PREFIX  . "Herobrine " . $player->getName() . " got close - despawning");
-		    // $newundeadplayer = new UndeadPlayer(new dummyChunk, new Compound, $player, $this, $this->plugin);
+		    if( $this->plugin->herobrineTask->herobrine_spawnundead ) {
+		    	$newundeadplayer = new UndeadPlayer(new dummyChunk, new CompoundTag, $player, $this, $this->plugin);
+		    }
 		    $this->poofAway();
 		    return true;
 		}

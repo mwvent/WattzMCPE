@@ -9,6 +9,8 @@ use Wattz\Tasks\SavePlayerPositionsTask;
 use Wattz\Commands\WarpCommand;
 use pocketmine\entity\Entity;
 
+use Wattz\ChatMessageFormatter;
+
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\permission\Permission;
@@ -58,10 +60,21 @@ class Main extends PluginBase {
                 if( isset($this->cfg["herobrine_chance"]) ) {
                     $this->herobrineTask->herobrine_chance = (int)$this->cfg["herobrine_chance"];
                 }
+		if( isset($this->cfg["herobrine_undead"]) ) {
+		    if(strtolower($this->cfg["herobrine_undead"])=="on") {
+	                $this->herobrineTask->herobrine_spawnundead = true;
+		    }
+                }
                 $msg = "Activating Herobrine On Startup with chance " . $this->herobrineTask->herobrine_chance;
                 Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );
             }
         }
+
+	$bcPlugin = $this->getServer()->getPluginManager()->getPlugin("BuddyChannels");
+        if( ! is_null($bcPlugin) ) {
+            $chatFormatter = new \Wattz\ChatMessageFormatter($this);
+        }
+
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
 	*/
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
