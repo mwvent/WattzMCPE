@@ -6,7 +6,9 @@ use pocketmine\Server;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Human;
 use pocketmine\entity\Effect;
-use pocketmine\level\format\FullChunk;
+#use pocketmine\level\format\FullChunk;
+#use pocketmine\level\format\generic\FullChunk;
+use pocketmine\level\format\Chunk;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
@@ -26,14 +28,14 @@ use pocketmine\entity\Arrow;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 
-
-use pocketmine\level\format\mcregion\Chunk;
+/*
 class dummyChunk extends Chunk
 {
      public function __construct() {
 	return true;
      }
 }
+*/
 
 class Herobrine extends Human implements CommandSender{
 	const NETWORK_ID=0;
@@ -45,7 +47,7 @@ class Herobrine extends Human implements CommandSender{
 	public $knockback;
 	public $timespawned;
 	
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, $targetPlayer = null, $plugin = null) {
+	public function __construct(Chunk $chunk, CompoundTag $nbt, $targetPlayer = null, $plugin = null) {
 		// if $targetPlayer is null pocketmine is probably trying to refload a saved
 		// version of this entity which we do not want anymore - as it is not cancellable ( I think ? )
 		// just let it create and the update function will despawn the entity immediatley when it finds
