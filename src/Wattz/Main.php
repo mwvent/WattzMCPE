@@ -1,10 +1,10 @@
 <?php
 
 namespace Wattz;
-use Wattz\Entities\Herobrine;
-use Wattz\Entities\HerobrineBat;
-use Wattz\Entities\UndeadPlayer;
-use Wattz\Tasks\HerobrineTask;
+#use Wattz\Entities\Herobrine;
+#use Wattz\Entities\HerobrineBat;
+#use Wattz\Entities\UndeadPlayer;
+#use Wattz\Tasks\HerobrineTask;
 use Wattz\Tasks\SavePlayerPositionsTask;
 use Wattz\Commands\WarpCommand;
 use pocketmine\entity\Entity;
@@ -36,7 +36,7 @@ class Main extends PluginBase {
     
 	public $warpaliases = array();
 	
-    public $herobrineTask;
+    //public $herobrineTask;
     private $savePlayerPositionsTask;
 
     public function onEnable(){
@@ -49,7 +49,8 @@ class Main extends PluginBase {
         $this->getCommand("hb")->setExecutor(new Commands\Commands($this));
 	
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
-        Entity::registerEntity(Herobrine::class);
+        /*
+	Entity::registerEntity(Herobrine::class);
         Entity::registerEntity(HerobrineBat::class);
         Entity::registerEntity(UndeadPlayer::class);
         $this->herobrineTask = new HerobrineTask($this);
@@ -68,13 +69,13 @@ class Main extends PluginBase {
                 Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );
             }
         }
-
+	*/
 	$bcPlugin = $this->getServer()->getPluginManager()->getPlugin("BuddyChannels");
         if( ! is_null($bcPlugin) ) {
             $chatFormatter = new \Wattz\ChatMessageFormatter($this);
         }
 
-        $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
+        //$this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
         
