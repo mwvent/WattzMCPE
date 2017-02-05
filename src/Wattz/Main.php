@@ -75,12 +75,7 @@ class Main extends PluginBase {
             $chatFormatter = new \Wattz\ChatMessageFormatter($this);
         }
 
-<<<<<<< HEAD
         //$this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
-=======
-        $this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
-	*/
->>>>>>> d2ca46acfb3ae21e011ad0b617a35af545561551
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
         
