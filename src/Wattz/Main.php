@@ -6,6 +6,7 @@ namespace Wattz;
 #use Wattz\Entities\UndeadPlayer;
 #use Wattz\Tasks\HerobrineTask;
 use Wattz\Tasks\SavePlayerPositionsTask;
+use Wattz\Tasks\AutomaticRebootTask;
 use Wattz\Commands\WarpCommand;
 use pocketmine\entity\Entity;
 
@@ -34,10 +35,11 @@ class Main extends PluginBase {
     public $tables;
     public $db_statements;
     
-	public $warpaliases = array();
+    public $warpaliases = array();
 	
     //public $herobrineTask;
     private $savePlayerPositionsTask;
+    private $automaticRebootTask;
 
     public function onEnable(){
         @mkdir($this->getDataFolder());
@@ -78,6 +80,9 @@ class Main extends PluginBase {
         //$this->getServer()->getScheduler()->scheduleRepeatingTask($this->herobrineTask,20);
         $this->savePlayerPositionsTask = new \Wattz\Tasks\SavePlayerPositionsTask($this);
         $this->getServer()->getScheduler()->scheduleRepeatingTask($this->savePlayerPositionsTask,300);
+
+	$this->automaticRebootTask = new \Wattz\Tasks\AutomaticRebootTask($this);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask($this->automaticRebootTask,30);
         
         $this->db = new \Wattz\Database($this, $this->cfg);
         
