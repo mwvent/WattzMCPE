@@ -21,6 +21,7 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\network\RakLibInterface;
+use pocketmine\network\protocol\TransferPacket;
 
 use Mysqli;
 
@@ -199,46 +200,57 @@ class Main extends PluginBase {
     }
         
     public function redirect_run(Player $player, $warpname) {
-		$warpname = strtolower($warpname);
-		// chucked in to enable me to deal with an emergencey
+	$warpname = strtolower($warpname);
+	// chucked in to enable me to deal with an emergencey
         if( $this->cfg["autokickall"] ) {
             $player->kick($this->cfg["autokickall_msg"]);
             return;
         }
-		// get server details from config
-		$targetwarp = $this->getWarpRealName($warpname);
-		if( $targetwarp === false ) {
-			$player->sendMessage(TextFormat::RED . "[Error] Warp doesn't exist");
-			return false;
-		}
-        if( $this->cfg["warps"]["this_server_name"] == $targetwarp ) {
+
+	// get server details from config
+	$targetwarp = $this->getWarpRealName($warpname);
+	if( $targetwarp === false ) {
+		$player->sendMessage(TextFormat::RED . "[Error] Warp doesn't exist");
+		return false;
+	}
+        
+	if( $this->cfg["warps"]["this_server_name"] == $targetwarp ) {
 			$player->sendMessage(TextFormat::RED . "[Error] You are already in this world");
             return false; 
         }
 
-		// Get connection details
-		$hostname = $this->cfg["warps"][$targetwarp]["hostname"];
-		$port = $this->cfg["warps"][$targetwarp]["port"];
+	// Get connection details
+	$hostname = $this->cfg["warps"][$targetwarp]["hostname"];
+	$port = $this->cfg["warps"][$targetwarp]["port"];
         
         // Update db
         $this->db->db_setUserLocation($player, $targetwarp);
         
-        // skip past the actual transfer if disabled - just go to the part where
+        /*
+	// skip past the actual transfer if disabled - just go to the part where
         // player is disconnected
         if( $this->cfg["warps"]["prevent-actual-transfer"] ) {
             $player->kick("To go to this world please connect to $hostname $port");
             return;
         }
+	*/
 		
-		// TODO ping/query target to check online
-		
-		$ft_plugin = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
-		if ($ft_plugin === null) {
-			Server::getInstance()->getLogger()->critical(Main::PREFIX  . "Could not find FastTransfer plugin");
+	// TODO ping/query target to check online
+	/*		
+	$ft_plugin = $this->getServer()->getPluginManager()->getPlugin("FastTransfer");
+	if ($ft_plugin === null) {
+		Server::getInstance()->getLogger()->critical(Main::PREFIX  . "Could not find FastTransfer plugin");
         }
         $ft_plugin->transferPlayer($player, $hostname, $port, "Connecting you to " . $warpname);
         
         $this->forcePlayerDisconnect($player);
+	*/
+	$msg = "Sending " . $player->getName() . " to server " . $hostname . ":" . $port;
+	Server::getInstance()->getLogger()->info(Main::PREFIX  . $msg );	
+	$pk = new TransferPacket();
+	$pk->address = $hostname; 
+	$pk->port = $port;
+	$player->dataPacket($pk);
     }
 }
 
